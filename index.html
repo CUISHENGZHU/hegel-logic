@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d11">
+<title>黑格尔《逻辑学》通关</title>
+<meta name="description" content="48 道选择题，跟着《逻辑学》自己的结构走一遍：存在论、本质论、概念论。每题答完给解释和例子。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="黑格尔《逻辑学》通关">
+<meta property="og:description" content="48 道选择题，把《逻辑学》的范畴表走一遍。答错不打紧，每题都有解释和例子。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0d11'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23c9a961' stroke-width='1.4'/%3E%3Cpath d='M11 20 L16 10 L21 20' fill='none' stroke='%23c9a961' stroke-width='1.4'/%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#c9a961;--gold2:#e6cf94;--dim:#8a7440;
+  --ink:#07080b;--panel:rgba(17,21,27,.92);
+  --text:#e8e0cc;--muted:#8d8778;--line:rgba(201,169,97,.22);
+  --ok:#7fae86;--no:#c0706a;
+}
+html,body{height:100%}
+body{background:var(--ink);color:var(--text);overflow:hidden;
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,serif;
+  display:flex;justify-content:center}
+#app{position:relative;width:100%;max-width:560px;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.bg{position:absolute;inset:0;background:radial-gradient(120% 60% at 50% 0%,#1c2430 0%,#0d1117 45%,#07080b 80%)}
+.bg:after{content:"";position:absolute;inset:0;opacity:.4;
+  background-image:radial-gradient(circle at 18% 25%,rgba(201,169,97,.07),transparent 42%),
+                   radial-gradient(circle at 82% 72%,rgba(120,150,200,.05),transparent 45%)}
+
+/* ---------- 通用 ---------- */
+.screen{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
+  transition:opacity .35s,transform .35s;background:transparent}
+.screen.out{opacity:0;transform:translateY(-10px);pointer-events:none}
+.hidden{display:none!important}
+
+/* ---------- 首页 ---------- */
+#home{overflow-y:auto;padding:calc(18px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom))}
+.brand{text-align:center;padding:6px 0 16px}
+.brand h1{font-size:26px;font-weight:400;letter-spacing:.1em;color:#efe6cf}
+.brand .sub{font-size:11px;letter-spacing:.26em;color:var(--dim);margin-top:9px}
+.brand .orn{width:36px;height:1px;background:var(--dim);margin:14px auto 0}
+.hero{margin-top:6px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:rgba(201,169,97,.035)}
+.hero p{font-size:13px;line-height:1.95;color:#b8b0a0}
+.hero b{color:var(--gold2);font-weight:400}
+.stat{display:flex;gap:8px;margin:12px 0 4px}
+.stat div{flex:1;text-align:center;border:1px solid var(--line);border-radius:10px;padding:9px 4px;background:rgba(255,255,255,.02)}
+.stat b{display:block;font-size:19px;color:var(--gold2);font-weight:400;letter-spacing:.02em}
+.stat span{font-size:10.5px;color:var(--muted);letter-spacing:.1em}
+.sec-t{font-size:11px;letter-spacing:.3em;color:var(--dim);margin:20px 2px 10px}
+.mods{display:flex;flex-direction:column;gap:9px}
+.mod{border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:rgba(17,21,27,.7);
+  display:flex;align-items:center;gap:12px;cursor:pointer;transition:.22s;position:relative;overflow:hidden}
+.mod:active{transform:scale(.985);background:rgba(201,169,97,.09)}
+.mod .no{font-size:20px;color:var(--dim);min-width:26px;text-align:center;font-weight:400}
+.mod .txt{flex:1;min-width:0}
+.mod .txt h3{font-size:15px;font-weight:400;letter-spacing:.04em;color:#e5dcc6}
+.mod .txt p{font-size:11.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.mod .pct{font-size:11px;color:var(--dim);letter-spacing:.06em;white-space:nowrap}
+.mod .bar{position:absolute;left:0;bottom:0;height:2px;background:linear-gradient(90deg,#8a7440,var(--gold2));width:0;transition:width .5s}
+.mod.done{border-color:rgba(201,169,97,.5)}
+.mod.done .pct{color:var(--gold2)}
+.foot{display:flex;gap:8px;margin-top:18px}
+.fbtn{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--line);color:#b9b0a0;
+  font-family:inherit;font-size:12.5px;letter-spacing:.1em;padding:11px 6px;border-radius:10px;cursor:pointer}
+.fbtn:active{background:rgba(201,169,97,.12)}
+.tiny{text-align:center;font-size:10.5px;color:#4f4b42;line-height:1.9;margin-top:16px}
+
+/* ---------- 答题 ---------- */
+#quiz{padding:calc(8px + env(safe-area-inset-top)) 0 calc(10px + env(safe-area-inset-bottom))}
+.qhead{display:flex;align-items:center;gap:10px;padding:6px 16px 8px}
+.back{background:none;border:none;color:var(--dim);font-size:20px;font-family:inherit;
+  padding:2px 6px;cursor:pointer;line-height:1}
+.qhead .mid{flex:1;min-width:0}
+.qhead .mid h4{font-size:12px;font-weight:400;color:#a89e88;letter-spacing:.1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qhead .mid .bar{height:2px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:7px;overflow:hidden}
+.qhead .mid .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a7440,var(--gold2));transition:width .4s}
+.qhead .cnt{font-size:11.5px;color:var(--dim);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.qbody{flex:1;overflow-y:auto;padding:6px 16px 16px}
+.qtag{display:inline-block;font-size:10px;letter-spacing:.18em;color:var(--dim);border:1px solid var(--line);
+  border-radius:20px;padding:2px 9px;margin-bottom:12px}
+.qtext{font-size:17.5px;line-height:1.8;color:#ece3cf;letter-spacing:.01em;margin-bottom:16px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:#ddd4be;
+  padding:12px 14px;border-radius:11px;font-family:inherit;font-size:14.5px;line-height:1.65;
+  display:flex;gap:10px;align-items:flex-start;cursor:pointer;transition:.2s;width:100%}
+.opt .k{color:var(--dim);font-size:11.5px;padding-top:2px;min-width:13px}
+.opt:active{transform:scale(.99)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:rgba(127,174,134,.65);background:rgba(127,174,134,.12);color:#dff0e0}
+.opt.right .k{color:var(--ok)}
+.opt.wrong{border-color:rgba(192,112,106,.6);background:rgba(192,112,106,.1);color:#e8cfcc}
+.opt.wrong .k{color:var(--no)}
+.opt.dim{opacity:.45}
+
+.fb{margin-top:16px;border-radius:12px;border:1px solid var(--line);background:rgba(201,169,97,.05);
+  padding:14px 15px;animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fb .judge{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.1em;margin-bottom:9px}
+.fb .judge.ok{color:var(--ok)}
+.fb .judge.no{color:var(--no)}
+.fb .judge span{font-size:11px;color:var(--muted);letter-spacing:.04em}
+.fb .why{font-size:14px;line-height:1.85;color:#d5ccb8}
+.fb .eg{margin-top:10px;font-size:13px;line-height:1.8;color:#a89e88;
+  border-left:2px solid rgba(201,169,97,.35);padding-left:10px}
+.fb .term{display:inline-block;margin-top:11px;font-size:11px;color:var(--gold);
+  border:1px solid rgba(201,169,97,.32);border-radius:20px;padding:2px 9px;letter-spacing:.08em}
+.nextbar{margin-top:14px;display:flex;gap:8px}
+.nextbar button{flex:1;background:linear-gradient(180deg,rgba(201,169,97,.16),rgba(201,169,97,.05));
+  border:1px solid rgba(201,169,97,.55);color:var(--gold2);font-family:inherit;font-size:14px;
+  letter-spacing:.2em;padding:13px;border-radius:10px;cursor:pointer}
+.nextbar button:active{transform:scale(.99);background:rgba(201,169,97,.24)}
+
+/* ---------- 章节小结 ---------- */
+#summary,#result{overflow-y:auto;padding:calc(30px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
+.sum-top{text-align:center;margin-bottom:22px}
+.sum-top .k{font-size:11px;letter-spacing:.3em;color:var(--dim)}
+.sum-top h2{font-size:23px;font-weight:400;letter-spacing:.08em;color:var(--gold2);margin-top:10px}
+.sum-top .sc{font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.08em}
+.points{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:rgba(201,169,97,.04)}
+.points li{list-style:none;font-size:13.5px;line-height:1.85;color:#cfc7b4;padding-left:16px;position:relative;margin-bottom:9px}
+.points li:before{content:"·";position:absolute;left:2px;color:var(--gold)}
+.points li:last-child{margin-bottom:0}
+.wronglist{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.wq{border:1px solid rgba(192,112,106,.3);border-radius:10px;padding:11px 13px;background:rgba(192,112,106,.06);font-size:13px;line-height:1.7;color:#cfc7b4}
+.wq b{display:block;color:#e0c9c4;font-weight:400;margin-bottom:5px}
+.wq em{font-style:normal;color:var(--muted);font-size:12.5px}
+.bigbtn{width:100%;margin-top:20px;background:linear-gradient(180deg,rgba(201,169,97,.16),rgba(201,169,97,.05));
+  border:1px solid rgba(201,169,97,.55);color:var(--gold2);font-family:inherit;font-size:15px;
+  letter-spacing:.24em;padding:14px;border-radius:10px;cursor:pointer}
+.bigbtn.ghost{background:none;color:#a89e88;border-color:var(--line);font-size:13px;letter-spacing:.14em;padding:11px}
+
+/* ---------- 术语表 ---------- */
+#cards{position:absolute;inset:0;z-index:30;background:rgba(6,7,10,.94);backdrop-filter:blur(14px);
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.85,.2,1);display:flex;flex-direction:column;
+  padding:calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom))}
+#cards.on{transform:translateY(0)}
+.cards-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cards-h h3{font-size:15px;font-weight:400;letter-spacing:.2em;color:var(--gold)}
+.cards-h button{background:none;border:1px solid var(--line);color:var(--muted);border-radius:20px;
+  padding:4px 12px;font-family:inherit;font-size:12px;cursor:pointer}
+#cardList{overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:10px}
+.card{border:1px solid rgba(201,169,97,.18);border-radius:12px;padding:12px 14px;background:rgba(201,169,97,.04)}
+.card h4{font-size:14px;color:var(--gold2);font-weight:400;letter-spacing:.06em;margin-bottom:6px}
+.card p{font-size:13px;line-height:1.8;color:#cfc7b4}
+.card .eg{margin-top:7px;font-size:12.5px;color:#948c7c;border-left:2px solid rgba(201,169,97,.3);padding-left:9px;line-height:1.7}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:34px 0;line-height:1.9}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bg"></div>
+
+  <!-- 首页 -->
+  <section class="screen" id="home">
+    <div class="brand">
+      <h1>《逻辑学》通关</h1>
+      <div class="sub">黑 格 尔 · 范 畴 的 自 我 运 动</div>
+      <div class="orn"></div>
+    </div>
+    <div class="hero">
+      <p>这本书号称西方哲学最难读的一本。难，不在于词多，而在于它的每一个范畴都不是「定义」，而是<b>自己否定自己、再走到下一个</b>的运动。<br>48 道题，按书自己的结构走一遍：存在论 → 本质论 → 概念论。答错不要紧，每题都告诉你<b>为什么</b>，再给一个例子。</p>
+    </div>
+    <div class="stat">
+      <div><b id="sTotal">0</b><span>已答</span></div>
+      <div><b id="sRight">0</b><span>答对</span></div>
+      <div><b id="sCards">0</b><span>术语卡</span></div>
+    </div>
+    <div class="sec-t">六 章 · 顺 序 通 关</div>
+    <div class="mods" id="modList"></div>
+    <div class="foot">
+      <button class="fbtn" id="btnCards">术语表</button>
+      <button class="fbtn" id="btnWrong">错题本</button>
+      <button class="fbtn" id="btnReset">清空记录</button>
+    </div>
+    <div class="tiny"><a href="https://cuishengzhu.github.io/hegel-night/" style="color:#8a7440;text-decoration:none;border-bottom:1px solid rgba(201,169,97,.3);padding-bottom:1px">还没玩过前传「与黑格尔夜谈」？→</a></div>
+    <div class="tiny">本习题集是通俗讲解，范畴译名用通行中译（贺麟/杨一之、梁志学）。<br>想读原著：先读《逻辑学》的「导论」和「必须从何开始」两节。</div>
+  </section>
+
+  <!-- 答题 -->
+  <section class="screen hidden" id="quiz">
+    <div class="qhead">
+      <button class="back" id="qBack">←</button>
+      <div class="mid">
+        <h4 id="qMod"></h4>
+        <div class="bar"><i id="qBar"></i></div>
+      </div>
+      <div class="cnt" id="qCnt">1/8</div>
+    </div>
+    <div class="qbody">
+      <div id="qTag" class="qtag"></div>
+      <div class="qtext" id="qText"></div>
+      <div class="opts" id="qOpts"></div>
+      <div id="qFb"></div>
+    </div>
+  </section>
+
+  <!-- 小结 / 总结 -->
+  <section class="screen hidden" id="summary"></section>
+  <section class="screen hidden" id="result"></section>
+
+  <!-- 术语表 -->
+  <div id="cards">
+    <div class="cards-h"><h3>术语表</h3><button id="cardsClose">合上</button></div>
+    <div id="cardList"></div>
+  </div>
+</div>
+<script>
+/* 黑格尔《逻辑学》习题数据
+   章节结构依照原书：存在论（质·量·尺度）→ 本质论（反思·现象·现实）→ 概念论（主观性·客观性·理念） */
+
+const MODULES = [];
+
+/* ======================= 一 · 导论 ======================= */
+MODULES.push({
+  id:'m1', num:'一', title:'逻辑学是什么',
+  sub:'导论 · 方法 · 开端',
+  points:[
+    '逻辑学不是思维技巧，而是存在的规定（范畴）自己展开的科学——所以它同时是本体论。',
+    '「正—反—合」是后人的标签；黑格尔自己说的是知性—辩证—思辨三环节，而且「合」不是折中。',
+    '开端必须最空洞：任何带着内容的东西都已经预设了前提。',
+    '三环节缺一不可：只停在第一环是教条，只停在第二环是破坏，走到第三环才是知识。'
+  ],
+  qs:[
+    {id:'m1q1', term:'逻辑学＝本体论',
+     t:'《逻辑学》研究的是什么？',
+     o:['人脑进行推理时的心理规律',
+        '存在本身的范畴结构——思想用来把握存在的那些最基本规定',
+        '科学论证的形式规则（比如三段论的格与式）',
+        '语言的语法结构'],
+     a:1,
+     why:'黑格尔的逻辑学不是「怎么想」的技术，而是「是」本身的规定系统。他称逻辑学为「真理的王国」：范畴不是人脑里的主观框架，而是事物得以成立的方式。所以逻辑学在他那里同时就是本体论。',
+     eg:'你说「这朵花是红的」——「这」「是」「红」这些规定既属于你的思维，也属于花本身。把它们劈成两半（思维归思维，存在归存在），正是他要拆掉的那道墙。'},
+
+    {id:'m1q2', term:'知性—辩证—思辨',
+     t:'关于「正—反—合」这个说法，哪一句最准确？',
+     o:['它是黑格尔全书严格套用的公式，每一节都按这三步走',
+        '它是后人的概括；黑格尔本人极少用这三个词，他自己的说法是知性—辩证—思辨三个环节',
+        '它是辩证法的唯一规律，其余内容都由它推论出来',
+        '它的意思是：先立论，再反驳，最后各让一步取中间'],
+     a:1,
+     why:'「正—反—合」来自康德一系的用语，黑格尔在《逻辑学》里几乎不用。他讲的是同一思维的三环节：知性的抽象规定、辩证的自我否定、思辨的具体重建。更要紧的是：「合」不是折中——折中把两边都削弱，扬弃把两边都提高。',
+     eg:'折中：你喜欢热闹、我喜欢清静，那每周各迁就一半。扬弃：我们吵明白「热闹」和「清静」各自缺了什么，然后过一种两人原先都没想到的生活。'},
+
+    {id:'m1q3', term:'无前提的开端',
+     t:'为什么《逻辑学》要从「有（Sein）」开始，而不从上帝、自我或经验开始？',
+     o:['因为「有」是最容易理解的词',
+        '因为开端必须最直接、最无规定；任何更具体的东西都已经预设了别的规定',
+        '因为宗教和经验的材料不可靠',
+        '因为古希腊哲学都是这么做的'],
+     a:1,
+     why:'「无前提」不是「什么都不要」，而是一个决定：不接受任何未经证明的预设。上帝、自我、经验都太「丰富」，都带着一堆前提。剩下能当开端的，只有最空的那个字——「是／有」。空到几乎没有内容，这既是它作为开端的资格，也是它立刻崩溃的原因。',
+     eg:'盖房子先打地基，但地基不能已经是房子。「有」就是那个还不是任何房子的地基。'},
+
+    {id:'m1q4', term:'知性逻辑',
+     t:'黑格尔怎么看待亚里士多德的形式逻辑？',
+     o:['认为它全是错的，应当废除',
+        '认为它只是「知性」的环节，被保留下来但降为局部——它管分离，不管生成',
+        '认为它和思辨逻辑其实是一回事',
+        '没什么兴趣，觉得与哲学无关'],
+     a:1,
+     why:'他不否认矛盾律在日常推理中管用；他反对的是把「不许矛盾」当成世界的最高法则。形式逻辑教你把规定彼此隔开，思辨逻辑则追问：这些规定为什么非打架不可，打完架又长出了什么。',
+     eg:'会计必须说「这笔钱要么是收入要么是支出」。但一个创业者的第一笔投入，账上是支出，同时也是他后来全部收入的根据。'},
+
+    {id:'m1q5', term:'辩证法三环节',
+     t:'「知性—辩证—思辨」这三个环节说的是什么？',
+     o:['三种气质不同的哲学家',
+        '同一次思考的三个必经阶段：先确定规定，再让它自我否定，最后在否定中重建具体的统一',
+        '三个不同历史时期的逻辑学',
+        '《逻辑学》的三卷'],
+     a:1,
+     why:'第一环把东西定死（「这是花」）；第二环发现它自己待不住（这花正开着，也正在凋谢）；第三环不是丢掉前两个，而是把握住「开放即凋谢」这个统一。缺第一环会变成空谈，缺第二环会变成教条，缺第三环就停在破坏里。',
+     eg:'学游泳：先记动作要领（知性）→ 一下水全乱，发现要领互相打架（辩证）→ 最后身体自己会了，说不出要领却游得对（思辨）。'},
+
+    {id:'m1q6', term:'具体／抽象',
+     t:'黑格尔说「真理是具体的」，这里的「具体」是什么意思？',
+     o:['指看得见摸得着的实物',
+        '指多种规定性的内在统一（con-crescere，「长在一起」）',
+        '指复杂难懂、需要长篇解释',
+        '指必须举例说明'],
+     a:1,
+     why:'在他的用法里，「具体」的反面不是「抽象的东西」，而是「片面」。一个概念越能把互相冲突的规定收在自己里面，它就越具体。「自由」若只是「没人管我」，那是抽象；把法律、他人、限制都包含进来还成立，才是具体的自由。',
+     eg:'「爱」抽象地说是「想和对方在一起」；具体地说是：想在一起，也能忍受分离，还能在争吵里不毁掉对方。'},
+
+    {id:'m1q7', term:'思维与存在的同一',
+     t:'黑格尔说范畴「既是主观的又是客观的」，这句话的意思是？',
+     o:['范畴是大脑里的图像，正好和世界相似',
+        '范畴是事物自身的规定；思想把握它们，就是事物在思想里认识自己',
+        '范畴由语言约定，无所谓真假',
+        '范畴只是有用的工具，谈不上真假'],
+     a:1,
+     why:'这是他最难也最关键的一步。他不要康德「现象可知、物自体不可知」的结论：如果思想的规定和存在的规定根本不同源，科学就永远只是猜测。所以他说「实体即主体」——世界的结构本身是概念性的，而概念是自我展开的。',
+     eg:'因果、必然、整体与部分这些词，你不可能只在脑子里用：你判断「这场雨导致减产」，就已经假定世界真有因果，而不只是你有「因果」这个念头。'},
+
+    {id:'m1q8', term:'阴影的王国',
+     t:'《逻辑学》在黑格尔整个体系中的位置是？',
+     o:['独立的方法论，可以不管其它部分',
+        '第一部分，是地基；其后是自然哲学与精神哲学。他称逻辑学为「阴影的王国」',
+        '最后一部分，是全部结论的汇总',
+        '只是《精神现象学》的附录'],
+     a:1,
+     why:'他把逻辑学比作「阴影的王国」——没有血肉，只有纯粹的規定。正因为纯粹，它才能当地基。逻辑学结束于「绝对理念」，随后这个理念「外化」为自然，自然再回到精神。',
+     eg:'像建筑的力学计算：它不出现在任何一面墙上，但每一面墙都按它站着。'}
+  ]
+});
+
+/* ======================= 二 · 存在论：质 ======================= */
+MODULES.push({
+  id:'m2', num:'二', title:'存在论 · 质',
+  sub:'有 · 无 · 变 → 定在 → 自为之有',
+  points:[
+    '纯有不加任何规定，因而等于纯无；两者的真理不是第三个名词，而是「过渡」本身：变。',
+    '定在是有规定性的存在；规定即否定，某物靠「不是别的」来成立。',
+    '界限不在事物之外，而在事物之内——认识你自己就是认识你的界限。',
+    '坏的无限永远在追逐，真无限把有限收为自身的环节；黑格尔说真理是圆。'
+  ],
+  qs:[
+    {id:'m2q1', term:'纯有＝纯无',
+     t:'「纯有」和「纯无」是什么关系？',
+     o:['两个互相反对的概念，一正一反',
+        '同一回事：只说「有」而不加任何规定，等于什么都没说',
+        '有是真实的，无是想象出来的',
+        '有先于无，无只是有的缺失'],
+     a:1,
+     why:'把「有」剥到什么都不剩——没有颜色、大小、关系、内容——剩下的那个「有」，你说不出它任何东西，它和「无」无法区分。这不是文字游戏，而是说：最抽象的规定一被说出来就自我消解。',
+     eg:'有人拍胸脯：「我要说一件最重要的事。」然后什么也没说出来。那个说不出口的「最重要的事」，就是纯有。'},
+
+    {id:'m2q2', term:'变（Werden）',
+     t:'为什么「变（Werden）」是第一个站得住的范畴？',
+     o:['因为世界确实在运动，这是常识',
+        '因为它是「有」与「无」的直接消失与过渡——两者都不成立，真理就在这个过渡里',
+        '因为赫拉克利特这么说，黑格尔照搬',
+        '因为时间比空间更基本'],
+     a:1,
+     why:'「有」站不住（它就是无），「无」也站不住（它是有规定的无）。两者的真理不是第三个静态的东西，而是它们相互过渡这个运动本身。所以第一个真正的范畴不是一个名词，而是一个动词。',
+     eg:'在天变黑的那十分钟里，说「天是黑的」为时过早，说「天不是黑的」也快错了。唯一准确的表述是「正在变黑」。'},
+
+    {id:'m2q3', term:'定在（Dasein）',
+     t:'「定在（Dasein）」指的是？',
+     o:['存在本身，最普遍意义上的有',
+        '有规定性的存在——「在那里」的、某物的存在',
+        '人特有的存在方式',
+        '被意识到的存在'],
+     a:1,
+     why:'「变」沉淀下来，就得到一个有确定规定的存在：某物。「有」什么也不是；「定在」是「这一个」。定在的第一个结构就是：它是某物，因而它不是别的东西。',
+     eg:'「有」是抽象的有；「桌上这只杯子」是定在。'},
+
+    {id:'m2q4', term:'规定即否定',
+     t:'在「定在」里，实在性与否定是什么关系？',
+     o:['实在性是纯粹的肯定，否定是从外面加上去的',
+        '实在性本身包含否定：某物之所以是某物，正因为它不是别的',
+        '否定只是语言里的一个否定词',
+        '二者互不相干，各管一摊'],
+     a:1,
+     why:'斯宾诺莎那句「一切规定都是否定」在这里被黑格尔接手：你说出任何肯定的内容，都是在划一条界，界外的一切随之被否定。所以纯粹无限的肯定（什么都行、什么都是）其实什么也不是。',
+     eg:'杯子之所以能装水，正因为它中间是空的——它的「空」（否定）就是它的用处（肯定）。'},
+
+    {id:'m2q5', term:'界限（Grenze）',
+     t:'「某物」与「他物」的界限在哪里？',
+     o:['在两者之间，属于双方之外的中立地带',
+        '在事物自身之内：某物由「它不是什么」来规定，他物被包含在它的规定里',
+        '界限只是观察者为了方便做的划分',
+        '某物先完整存在，然后才获得界限'],
+     a:1,
+     why:'黑格尔说界限是事物最内在的东西：它不是把两个东西隔开的墙，而是让一个东西成为「这一个」的那个规定。所以「认识你自己」同时就是「认识你的界限」——而界限不是外来的，是它自己的。',
+     eg:'你说自己「内向」，这个「内向」的全部内容都来自被你排除的「外向」。你的性格里住着你的反面。'},
+
+    {id:'m2q6', term:'坏的无限',
+     t:'黑格尔说的「坏的无限」是哪种？',
+     o:['任何数学意义上的无限',
+        '永远在超出、永远达不到的无限——比如 1、2、3……永远数不完',
+        '上帝',
+        '无法想象的东西'],
+     a:1,
+     why:'坏无限的关键不是「大」，而是它本质上仍然有限：每一次超出都被下一个界限挡住，于是它永远在追逐、永远不完成。这种无限只是把有限重复了无数次。',
+     eg:'「等我赚到下一个一百万就安心了」——每达到一次，目标就后退一格。这就是坏无限的生活方式。'},
+
+    {id:'m2q7', term:'真无限（圆）',
+     t:'什么是「真无限」？',
+     o:['比坏无限更大、更远的无限',
+        '把有限收为自身环节、在自己那里存在的无限——像圆，终点即起点',
+        '超越这个世界的彼岸',
+        '一种无法言说的神秘体验'],
+     a:1,
+     why:'真无限不是「没有界限」，而是「把界限收回自己」。它与有限的差别不在大小，而在结构：有限在它外面找不到，因为它已经把有限包含为一环。黑格尔说，真理是圆。',
+     eg:'真正自由的人不是「没有限制」，而是限制成了他自己选择的一部分——他在规则里认出自己。'},
+
+    {id:'m2q8', term:'自为之有',
+     t:'「自为之有（Fürsichsein）」的核心结构是？',
+     o:['独立自足，与他物毫无关系',
+        '否定性的自我关系：一通过排斥多而成其为一，而多又只能在一的立场上被设定',
+        '数量上的单个性、唯一性',
+        '意识的一种主观状态'],
+     a:1,
+     why:'自为之有是「回到自身」的存在：它不再依赖他物，而是自己与自己相关。但这一步一出现就立刻分裂为一与多：「一」靠排斥其它的一来成立；而被排斥的那些，又只能在「一」的立场上被数出来。',
+     eg:'我一说「我」，就把整个「非我」推开了；可如果没有那些非我，这个「我」什么内容也没有。自我意识天生带着这个悖论。'}
+  ]
+});
+
+/* ======================= 三 · 存在论：量 · 尺度 ======================= */
+MODULES.push({
+  id:'m3', num:'三', title:'存在论 · 量',
+  sub:'连续与间断 · 数 · 度 · 尺度',
+  points:[
+    '量是「对它物漠不相关」的规定：在一定范围内增减，事物仍是它自己。',
+    '量同时是连续的和间断的——没有单位就无从计数，没有连续就无所谓单位。',
+    '尺度是质与量的直接统一：一定的质只对应一定的量域。',
+    '量变到某一点会突然翻转成质变（节点线）；越过尺度，就出现新的尺度，存在论到此耗尽。'
+  ],
+  qs:[
+    {id:'m3q1', term:'量（Quantität）',
+     t:'量与质最根本的差别是？',
+     o:['量可以测量，质不能测量',
+        '量是「对它物漠不相关」的规定：在某个范围内增减，事物仍然是它自己',
+        '量是外在的，质是内在的',
+        '量属于数学，质属于哲学'],
+     a:1,
+     why:'质一变，事物立刻就不是它自己了；量变动时，事物还能保持自身——所以量看起来是「无所谓的」规定。但黑格尔马上拆穿这种无所谓：越过去某个点，量变会翻成质变，量的漠不相关其实是假象。',
+     eg:'一件衣服长一点短一点，还是衣服（量）；但短到某个程度就成了手帕（质变）。'},
+
+    {id:'m3q2', term:'连续性与间断性',
+     t:'关于量的连续性与间断性，黑格尔的主张是？',
+     o:['量本质上是连续的，间断是人为了方便切的',
+        '量既是连续的又是间断的，二者互为环节——没有连续就无所谓单位，没有单位就数不出连续',
+        '量本质上是间断的，连续只是感觉',
+        '两者是两种不同的量'],
+     a:1,
+     why:'这是《逻辑学》里处理得最漂亮的一节：它们不是两个属性，而是同一个量的两个不可分割的环节。取消一个，另一个也立刻站不住——纯连续无法计数，纯间断无法构成整体。',
+     eg:'时间既可以切成秒（间断），又一直在流（连续）；一支曲子既是一个个音符，又是一条旋律。'},
+
+    {id:'m3q3', term:'数（Zahl）',
+     t:'在黑格尔的分析里，「数」由哪两个环节构成？',
+     o:['多与少',
+        '数目（Anzahl）与单位（Einheit）——数就是「多少个什么」',
+        '整数与分数',
+        '有限与无限'],
+     a:1,
+     why:'数是量的「带有单位的规定」。同一个量，换单位就换数目：「三打」和「三十六支」是同一个量。所以数天然带着「外在性」——它总取决于你拿什么当单位。',
+     eg:'「三打」是两个单位叠起来（3 与 12）；报税时换个币种，数字全变，钱没变。'},
+
+    {id:'m3q4', term:'度（Grad）',
+     t:'温度既可以说「第 30 度」，也可以说「相当热」。黑格尔用哪对范畴说这件事？',
+     o:['外延的量与内涵的量（度）——同一个量，既可看作由许多部分组成，也可看作一个强度',
+        '质与量',
+        '有限与无限',
+        '原因与结果'],
+     a:0,
+     why:'外延的量是「铺开」的量（多少个单位），内涵的量是「集中」的量（强度、度数）。黑格尔的要点是：二者是同一个量的两种看法，不可分割——没有任何一个纯粹外延或纯粹内涵的量。',
+     eg:'一副药「含 500 毫克」是外延， 「药效很猛」是内涵；同一强度可以摊在很多份量里，也可以集中在一滴里。'},
+
+    {id:'m3q5', term:'尺度（Maß）',
+     t:'「尺度（Maß）」是什么？',
+     o:['测量的工具和标准',
+        '质与量的直接统一：一定的质只对应一定的量域，在这个范围内事物还是它自己',
+        '数量变化的临界点',
+        '一种主观的评判标准'],
+     a:1,
+     why:'尺度是存在论的第三个大范畴，也是「质」与「量」的真理：不存在只能定性不能定量的事物，也不存在与质无关的纯粹数量。每一物都有自己的尺度，也就是它「撑得住」的范围。',
+     eg:'同一首曲子，速度从 60 调到 72 还是它；调到 200 就散架了，成了另一种东西（甚至不再是音乐）。'},
+
+    {id:'m3q6', term:'节点线（Knotenlinie）',
+     t:'「尺度关系的节点线」说明的是什么？',
+     o:['历史总有转折点',
+        '量的渐变会在某一点上突然翻转成质的飞跃——量变引起质变',
+        '所有事物最终都会衰败',
+        '数学函数图像上的拐点'],
+     a:1,
+     why:'这是全书最著名的一节：量的变化在尺度之内是平静的、几乎察觉不到的，到了节点上却「突然」变成另一种质，并在新的质上开始新的尺度。黑格尔说，被古人称作「狡猾」的自然界，恰恰在这种跳跃里显出机智。',
+     eg:'水从 1℃ 到 99℃ 都是水，到 100℃ 忽然变成蒸汽；一粒粒沙加上去，某一刻忽然成了「一堆」。'},
+
+    {id:'m3q7', term:'无尺度',
+     t:'越过尺度、进入「无尺度」之后会发生什么？',
+     o:['一切崩溃，归于虚无',
+        '旧尺度毁掉的同时立刻产生新的尺度——存在论的范畴在此耗尽，过渡到本质论',
+        '事物回到原来的质',
+        '进入纯粹的数学领域'],
+     a:1,
+     why:'无尺度不是终点，而是「新尺度的诞生地」。但黑格尔的重点在于：一旦我们意识到每个尺度都会被自己的量冲破，我们就不再能只看「直接的存在」了——必须去看背后那个「本质」。这就是向本质论的过渡。',
+     eg:'每一次革命都从「太过分」开始，然后建立自己的新尺度；而新尺度也有它撑不住的那一天。'},
+
+    {id:'m3q8', term:'数学的无限',
+     t:'黑格尔怎么看微积分里的「无限小」？',
+     o:['完全否定，认为那是数学的胡闹',
+        '承认它有效，但批评它把「正在消失的量」当成现成的零，缺乏概念上的说明',
+        '认为它证明了世界的连续性',
+        '认为它只是记号，没有哲学意义'],
+     a:1,
+     why:'他不是反数学（他专门研究过微积分）。他的批评是：无限小之所以让数学家自己也说不清，是因为他们用「现成的量」去理解「正在消失」——而后者恰恰是「变」的范畴。用他的话：这里需要的不是更小，而是另一种逻辑。',
+     eg:'dy/dx 不是 0 除以 0，而是两个正在消失的量的关系；只有把它看成「变」，它才不是魔术。'}
+  ]
+});
+
+/* ======================= 四 · 本质论：反思 ======================= */
+MODULES.push({
+  id:'m4', num:'四', title:'本质论 · 反思',
+  sub:'假象 · 反思规定 · 根据',
+  points:[
+    '本质论的范畴是「相对的」：每一对都只能成对出现，彼此映现。',
+    '假象不是虚无，而是本质的显现方式；现象背后没有另一个「真正的世界」。',
+    '同一、差异、矛盾是同一个反思运动的加深：抽象同一 → 杂多 → 对立 → 矛盾。',
+    '矛盾不是错误而是动力；矛盾退回到自身，就成了「根据」。'
+  ],
+  qs:[
+    {id:'m4q1', term:'本质论',
+     t:'本质论的范畴与存在论的范畴，最大的区别是？',
+     o:['本质论更深刻，更接近世界的真相',
+        '存在论的范畴是直接的、彼此过渡的；本质论的范畴是相对的、互为映现的，每一对只能成对出现',
+        '本质论讲的是人的内心，存在论讲的是外部世界',
+        '本质论只是存在论的重复，换了个说法'],
+     a:1,
+     why:'「有→无→变」是一路流走的：一个消失，另一个出现。而「因与果」「内与外」「本质与现象」必须成对才算数——说「因」就已经说了「果」，取消一边，另一边立刻空掉。这叫「反思的规定」。',
+     eg:'你无法只说「丈夫」而不暗示「妻子」；但你可以只说「石头」而不提别的。'},
+
+    {id:'m4q2', term:'假象（Schein）',
+     t:'「假象（Schein）」在黑格尔那里是？',
+     o:['纯粹的虚无，什么都没有',
+        '本质自己的映现——现象不是「假」，而是本质显现的方式',
+        '人产生的错觉',
+        '与本质完全无关的表象'],
+     a:1,
+     why:'德语的 Schein 兼有「光、显现、假象」三义，黑格尔正是吃定了这一点：假象没有独立的存在，但它也不是无——它是本质的「发光」。所以问题不是「如何透过假象找本质」，而是「本质为什么必然要显现」。',
+     eg:'影子里没有实物，但影子确实由实物造成；镜中人不在镜子里，镜中的却完全是他的样子。'},
+
+    {id:'m4q3', term:'反思（Reflexion）',
+     t:'「反思」在《逻辑学》里指的是？',
+     o:['人回过头来检查自己的想法',
+        '本质在自身之内的运动：它设定一个他物，又在这个他物中回到自身',
+        '对事物的客观观察',
+        '一种心理学的内省方法'],
+     a:1,
+     why:'Reflexion 本义是「光的反射」。黑格尔用它说：本质不是静止地待在背后，而是不断地「映现」到自己的他物里，再从那他物返回自身。所以本质是运动，不是一个东西。',
+     eg:'一个人说的每句话都在暴露他——「暴露」不是他额外做的事，而是说话这个行动本身的结构。'},
+
+    {id:'m4q4', term:'抽象的同一',
+     t:'黑格尔怎么看待「A = A」这条同一律？',
+     o:['它是思维最基本的正确规则，必须服从',
+        '抽象的同一律是空洞的（说了等于没说）；真正的同一是包含差异、在差异中建立起来的同一',
+        '它只对数学有效',
+        '它是一切矛盾的根源'],
+     a:1,
+     why:'「A 是 A」没有说出任何内容，它只是把同一个词重复了一遍。黑格尔要的是「具体的同一」：一个东西之所以还是它自己，正因为它经历了差异、变化、甚至自我否定，仍然回到了自身。',
+     eg:'「我就是我」什么也没说；「我还是十年前那个我」这句话要跨过十年全部的差异才成立。'},
+
+    {id:'m4q5', term:'差异的三态',
+     t:'黑格尔把「差异」分成哪三个层次（由浅入深）？',
+     o:['相同、相似、相等',
+        '杂多 → 对立 → 矛盾',
+        '差别、区别、分歧',
+        '量的差异、质的差异、尺度的差异'],
+     a:1,
+     why:'杂多是「互不相干」（两支笔）；对立是「互相依赖的反面」（上与下、正与负）；矛盾是「同一个东西在自己身上和自己不相容」（有限者必须超出自身）。前两者还能停在知性里，第三个就非动起来不可了。',
+     eg:'你和路上一个陌生人：杂多。你和你的对手：对立。你和那个「想成为却一直没成为的自己」：矛盾。'},
+
+    {id:'m4q6', term:'矛盾',
+     t:'黑格尔说「矛盾是一切运动和生命性的根源」，这意味着？',
+     o:['世界是混乱的，无法被认识',
+        '有限事物本身自相矛盾，正是这个自相矛盾推动它变化和发展',
+        '矛盾应该被消灭，然后才有真理',
+        '矛盾只存在于思维中，不在事物里'],
+     a:1,
+     why:'这是全书最反直觉、也最常被误读的一句。他不是赞美混乱，而是说：凡是有限的、有规定的东西，都必然超出自己——因为它的规定要靠它排除的东西来成立。这个「必须超出自己」就是矛盾，也是运动。',
+     eg:'一个号称「纯粹」的自我，必须排斥一切他者才存在；而它用来排斥的力量，本身就是被他者规定的。'},
+
+    {id:'m4q7', term:'根据（Grund）',
+     t:'「根据（Grund）」在本质论中的位置是？',
+     o:['因果链条上的第一个原因',
+        '矛盾退回自身、被设定为「理由」：根据不是「前面还有别的」，而是本质自己为自己提供理由',
+        '逻辑推理的前提',
+        '事物存在的纯粹事实性'],
+     a:1,
+     why:'「根据」是从矛盾走出来的结果：矛盾没有被抹掉，而是被收回、沉淀为一个事物的「理由」。所以追问根据不是无限地往前找原因，而是发现理由本身是个圆圈——A 因为 B，B 又因为 A。',
+     eg:'「为什么有这棵树？」「因为有种子。」但种子之所以是种子，只因为它长成了树。理由在这里是圆的，不是一条直线。'},
+
+    {id:'m4q8', term:'排中律',
+     t:'黑格尔对「要么 A，要么非 A」这条排中律的批评是？',
+     o:['他认为这在逻辑上完全不成立',
+        '他认为「非 A」本身也是一种规定，而边界上的东西恰恰同时属于两边——排中律把「变」排除掉了',
+        '他认为排中律只对外国人有效',
+        '他没有批评过排中律'],
+     a:1,
+     why:'他的论点很具体：「非 A」不是一个空洞的无，而是一个有内容的规定（非红就是蓝、绿、黄……）。既然 A 与非 A 都有内容，就总有既非此也非彼、或既此又彼的中间状态——而变化恰恰住在这个中间。',
+     eg:'「你要么支持，要么反对」——但一个人可以先理解再反对，可以在改变中，可以反对这个方案却支持这个目标。真正的立场常常住在「要么」之外。'}
+  ]
+});
+
+/* ======================= 五 · 本质论：现象与现实 ======================= */
+MODULES.push({
+  id:'m5', num:'五', title:'本质论 · 现实',
+  sub:'实存 · 现象 · 现实 · 实体 · 因果',
+  points:[
+    '实存是「有根据的存在」，比定在更进一步：它背后有理由。',
+    '物在它的属性里消解——除去全部属性，剩下的「物本身」什么也不是。',
+    '内与外同一：凡内在的必然表现出来，凡表现出来的就是它的内。',
+    '现实不是「现存」，而是本质与存在的统一；实体、因果最终走到交互作用，本质论在此耗尽，让位给概念。'
+  ],
+  qs:[
+    {id:'m5q1', term:'实存（Existenz）',
+     t:'「实存」与「定在」的差别是？',
+     o:['没有差别，是同一个词的不同译法',
+        '定在是直接的、有规定性的存在；实存是从根据中产生出来的存在，是「有理由的存在」',
+        '实存只用于人，定在用于物',
+        '实存是精神性的，定在是物质性的'],
+     a:1,
+     why:'定在是「某物在那里」；实存多了一层：它「有根据」。这一层看着很小，却是整个本质论的成果——事物不再只是被抛在那里，而是从理由中产生、可以追问「为什么」的存在。',
+     eg:'「一块石头在那里」是定在；「这张判决书在那里」是实存——它背后有法律、有理由、有程序。'},
+
+    {id:'m5q2', term:'物与属性',
+     t:'黑格尔分析「物及其属性」得出的结论是？',
+     o:['物是属性的承载者，属性依附于物',
+        '物由属性构成，而属性又不独立自存——物在它的属性里消解，二者互相取消',
+        '属性是主观的，物是客观的',
+        '物与属性完全无关'],
+     a:1,
+     why:'这是《逻辑学》里最精彩的一次「拆解」：你说物是「那些属性的统一」，可那个统一本身说不出是什么；你说属性依附于物，可属性一离开彼此就什么也不是。追到底，物「消亡」了——剩下的只有现象。',
+     eg:'盐是白的、咸的、立方体的；可「盐」并不在白色、咸味、立方体之外另有一个东西。把属性全部拿走，剩下的「盐本身」什么也不是。'},
+
+    {id:'m5q3', term:'现象（Erscheinung）',
+     t:'「现象」与本质的关系是？',
+     o:['现象是掩盖本质的假象，哲学要透过它',
+        '现象就是本质的显现：本质不在现象背后，就在现象之中',
+        '现象是感觉材料，本质是理性构造',
+        '二者永不相通'],
+     a:1,
+     why:'这是对康德最直接的一击。康德说：我们看到的是现象，物自体永远在背后。黑格尔说：那个「背后」是空的——一旦你说出它是什么，它就已经是现象了。所谓「本质」，只是现象总体的自我反思。',
+     eg:'一个人的性格不在他所有行为「背后」，就在他每一次怎么说话、怎么付钱、怎么告别里面。'},
+
+    {id:'m5q4', term:'内与外',
+     t:'「内与外」这对范畴，黑格尔主张？',
+     o:['内是真，外是假，要重内轻外',
+        '内与外同一：凡内在的都会表现出来，凡表现出来的就是它的内——「内」只是「外」的另一种说法',
+        '外决定内',
+        '内永远不可知'],
+     a:1,
+     why:'这一节专门拆穿「我内心其实很善良，只是没表现出来」式的自我安慰：如果一辈子没有任何表现，这句话就没有内容。反过来，一切外在行为也都在透露内在——没有纯粹的「外表」。',
+     eg:'一个从不迟到、从不撒谎、从不占便宜的人，你说他「内心其实很自私」——这个说法没有任何可指的内容。'},
+
+    {id:'m5q5', term:'现实（Wirklichkeit）',
+     t:'「现实（Wirklichkeit）」在黑格尔那里等于？',
+     o:['现存的一切，凡是存在的都现实',
+        '本质与存在的统一：不仅存在，而且展开了自己的根据——「配得上存在」',
+        '人主观认定的真实',
+        '未来的可能性'],
+     a:1,
+     why:'这是《法哲学原理》那句名言（「凡是现实的都是合理的」）的出处。他说的「现实」远窄于「现存」：一座烂尾楼存在，但不现实；一个真正运转起来的制度才叫现实。他生前专门加注抗议过那种「现存即合理」的读法。',
+     eg:'一段只剩形式、谁也不信的婚姻「存在」；一段真正在过的婚姻才「现实」。'},
+
+    {id:'m5q6', term:'实体与偶性',
+     t:'「实体」与「偶性」的关系是？',
+     o:['实体是底下的东西，偶性是表面的变化',
+        '实体不是躲在偶性背后的东西，而是产生又收回偶性那个运动本身',
+        '实体是物质，偶性是属性',
+        '实体是精神，偶性是肉体'],
+     a:1,
+     why:'斯宾诺莎说「实体是自因」，黑格尔接过来但改造了：实体不是一块静止的底座，而是「自己产生出自己的诸多样态，又在其中保持自身」的力量。所以实体性其实已经是主体性的雏形。',
+     eg:'一个人的「性格」不是一个藏在行为后面的小盒子，它就是这些行为反复出现的那个规律。'},
+
+    {id:'m5q7', term:'因果性',
+     t:'黑格尔对因果关系的推进是？',
+     o:['因果就是 A 引起 B，到此为止',
+        '原因在结果里仍然是原因（原因与自己相关），于是因果必然走向「交互作用」',
+        '因果只是人的习惯联想',
+        '因果其实是统计相关'],
+     a:1,
+     why:'他的论证是：原因是「产生结果的力量」，可这个力量只有在结果里才被看见——所以原因并没有在结果那里「用掉自己」，它仍在结果中保持自身。一旦看清这一点，原因和结果就开始互相规定，走向交互作用。',
+     eg:'太阳晒热石头：太阳是原因；但太阳之所以是太阳，也要在它的作用里显现。它没有因为「造成」了什么而少掉自己。'},
+
+    {id:'m5q8', term:'交互作用',
+     t:'为什么说「交互作用」是本质论的顶点，并过渡到概念论？',
+     o:['因为它是最后一条范畴，没得可说了',
+        '因为双方互相设定，谁也不是「第一因」——实体性由此转为自我规定的自由，范畴不再只是「关系」，而成了「概念」',
+        '因为它证明了世界是物质的',
+        '因为它取消了因果'],
+     a:1,
+     why:'到交互作用这里，一切「背后的东西」都被取消了：没有第一因，没有隐藏的实体，只有互相设定的整体。可这个整体是自我规定的——这就已经是「概念」了。所以黑格尔说，本质论在这里「烧穿」了自己。',
+     eg:'两个人互相塑造：谁也说不清谁先开始。一旦看清这种相互性，你就不能再把任何一方当成固定的「本质」——只剩下一个自我展开的整体。而这，就是「概念」。'}
+  ]
+});
+
+/* ======================= 六 · 概念论 ======================= */
+MODULES.push({
+  id:'m6', num:'六', title:'概念论 · 理念',
+  sub:'概念 · 判断 · 推论 · 客体 · 理念',
+  points:[
+    '概念不是主观表象，而是自由地自我规定的形式：普遍、特殊、个别三环节。',
+    '判断是概念的自我分裂，推论是概念通过中介把自己实现为整体。',
+    '客体性三形态：机械性 → 化学性 → 目的性；目的高于机械，因为结果已在开端之中。',
+    '绝对理念不是上帝，而是方法本身；逻辑学结束于理念「外化」为自然。'
+  ],
+  qs:[
+    {id:'m6q1', term:'概念的三个环节',
+     t:'「概念（Begriff）」的三个环节是？',
+     o:['定义、划分、推理',
+        '普遍、特殊、个别',
+        '主体、客体、绝对',
+        '感性、知性、理性'],
+     a:1,
+     why:'三者不是三个东西，而是同一个概念的三种存在方式：普遍性（它是什么类）、特殊性（它区别于同类的方式）、个别性（这一个）。黑格尔的要点是：真正具体的概念三者同时在场，缺一个就塌。',
+     eg:'「水果」（普遍）→「苹果」（特殊）→「我手里这只」（个别）。只说「水果」是空的，只说「这只」是盲的。'},
+
+    {id:'m6q2', term:'判断（Urteil）',
+     t:'黑格尔说「判断」的实质是？',
+     o:['把两个概念连起来说一句话',
+        '概念自己分裂为主词与谓词，又在这个分裂中展示自己的内容——判断是概念的自我区分',
+        '对事物做出真假判定',
+        '人的一种心理活动'],
+     a:1,
+     why:'德语 Urteil 本有「原初的划分」之意，黑格尔又吃定了这一点：判断不是把外面的两个词粘起来，而是概念自己一分为二——「这一个」与「它所属的普遍」——然后看这两半能不能对上。对不上，判断就是假的。',
+     eg:'「这朵玫瑰是红的」：主语是「这一个」，谓语是「一条普遍规定」。判断的真假，就是「个别能否承受这个普遍」。'},
+
+    {id:'m6q3', term:'推论（Schluss）',
+     t:'「推论／三段论」在黑格尔那里为什么重要？',
+     o:['因为它是形式逻辑的核心，黑格尔照搬了它',
+        '因为推论是概念的实现：通过「特殊」这个中介，把个别与普遍连成一个圆圈',
+        '因为它能保证结论为真',
+        '因为它只是修辞手法'],
+     a:1,
+     why:'在黑格尔看来，推论不是思维的技巧，而是事物存在的结构：任何现实的东西都是「个别—特殊—普遍」的一个自我中介的整体。所以他说，一切事物都是推论。',
+     eg:'「苏格拉底会死」不是靠两条前提硬凑，而是因为「人」这个中介把个别与普遍接了起来——推论就是这个中介的运动。'},
+
+    {id:'m6q4', term:'客体性',
+     t:'概念客观化的三个形态依次是？',
+     o:['机械性 → 化学性 → 目的性',
+        '因果性 → 必然性 → 自由',
+        '生命 → 认识 → 绝对理念',
+        '量 → 质 → 尺度'],
+     a:0,
+     why:'机械性是「彼此外在」的客体（互不相干，只靠外力推动）；化学性是「彼此相吸相斥」的客体（化合成第三物）；目的性是「自己规定自己」的客体（结果已在开端之中）。三步的递进，就是概念在客体中越来越「回到自己」。',
+     eg:'一堆石头（机械）→ 氢和氧化合成水（化学）→ 一颗种子长成树（目的）。'},
+
+    {id:'m6q5', term:'目的论',
+     t:'黑格尔为什么说目的论高于机械性？',
+     o:['因为目的论更神秘、更高级',
+        '因为在目的里结果已经包含在开端中——概念在客体中保持自身，而不是被外部推着走',
+        '因为自然界确实有上帝设计',
+        '因为机械论已经被科学淘汰'],
+     a:1,
+     why:'他的理由不是神学，而是结构：机械因果里，原因在结果之外；目的里，开端与终点是同一个东西的两端。这正是「概念」在自然里最接近自由的样子。但他也批评「外在目的论」（为了人的用处而设的目的）是幼稚的。',
+     eg:'钟表的运行可以完全用机械解释，但「为什么要造它」只有目的能说。黑格尔强调的是「内在目的」：事物自己朝向自己，而不是被人利用。'},
+
+    {id:'m6q6', term:'生命',
+     t:'「生命」在概念论里的位置是？',
+     o:['生物学的研究对象，与逻辑学无关',
+        '理念的直接形态：概念在自然个体中直接实现自己，又不断把外在性收回自身',
+        '一种主观的体验',
+        '绝对理念的别名'],
+     a:1,
+     why:'生命是「理念」的第一个形态：它已经是一个自我维持的整体，但还停留在直接的、个体的形态里——所以它会死。要走到「认识」和「绝对理念」，理念才能成为自觉的。',
+     eg:'一个细胞不断从外界摄取物质，又始终是它自己——它在与自己打交道。这就是理念最直白的形态。'},
+
+    {id:'m6q7', term:'绝对理念',
+     t:'「绝对理念」到底是什么？',
+     o:['上帝，宇宙的最高存在者',
+        '方法本身：知道自己就是全部真理的那个自我认识——它不是一个对象，而是全书的最后一句',
+        '一切事物的总和',
+        '一种神秘的直观'],
+     a:1,
+     why:'这是最容易被神秘化的一节，其实很朴素：走到最后，剩下的不是某个「最高的东西」，而是这一路走来的方式本身。黑格尔明说，绝对理念是「方法」。它不是内容之外的东西，而是内容的自我展开。',
+     eg:'它不像一个答案写在全书的末尾，而像学会了走路：你不再需要「走路的方法」，因为方法成了你。'},
+
+    {id:'m6q8', term:'外化为自然',
+     t:'《逻辑学》结束之后走向哪里？',
+     o:['什么也没有，哲学到此完成',
+        '绝对理念「外化」为自然——体系从逻辑学转入自然哲学，再回到精神哲学',
+        '回到起点，重新开始',
+        '进入神学'],
+     a:1,
+     why:'逻辑学以绝对理念结束，但绝对理念是「自由的」：它不需要停留在纯粹思想里，于是把自己「外化」为自然——那个外在的、互不相干的存在。整部《哲学全书》就是这条路的展开：逻辑学 → 自然哲学 → 精神哲学。',
+     eg:'思想把一切都想明白了，却发现自己要求有一个被想的世界。于是它必须走出去。'}
+  ]
+});
+
+</script>
+<script>
+/* ================= 黑格尔《逻辑学》通关 · 引擎 ================= */
+const KEY = 'hegel-logic-v1';
+const L = ['A','B','C','D'];
+
+/* 用题号做种子的确定性乱序：刷新页面不会变，但正确答案不会总落在 B */
+function seeded(str){
+  let h = 2166136261 >>> 0;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return function(){
+    h = (h + 0x6D2B79F5) >>> 0;
+    let t = h;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const ALL = [];
+MODULES.forEach((m, mi) => m.qs.forEach((q, qi) => {
+  q._m = mi; q._q = qi;
+  const r = seeded(q.id);
+  const idx = [0,1,2,3];
+  for(let i=3;i>0;i--){ const j = Math.floor(r() * (i + 1)); const t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+  const newA = idx.indexOf(q.a);
+  const newO = idx.map(i => q.o[i]);
+  q.a = newA; q.o = newO;
+  ALL.push(q);
+}));
+
+let S = load();
+function load(){
+  try{ const o = JSON.parse(localStorage.getItem(KEY) || '{}');
+    return {ans: o.ans || {}};
+  }catch(e){ return {ans:{}}; }
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+const $ = s => document.querySelector(s);
+const el = (t, c, h) => { const d = document.createElement(t); if(c) d.className = c; if(h!=null) d.innerHTML = h; return d; };
+
+/* ---------- 屏幕切换 ---------- */
+const SCREENS = {};
+function show(name){
+  Object.keys(SCREENS).forEach(k => { SCREENS[k].classList.toggle('hidden', k !== name); });
+  document.querySelector('#app').scrollTop = 0;
+  const sc = SCREENS[name]; if(sc) sc.scrollTop = 0;
+}
+
+/* ---------- 首页 ---------- */
+function stats(){
+  const ids = Object.keys(S.ans);
+  let right = 0; ids.forEach(id => { if(S.ans[id].ok) right++; });
+  return {answered: ids.length, right, total: ALL.length};
+}
+function renderHome(){
+  const st = stats();
+  $('#sTotal').textContent = st.answered + '/' + st.total;
+  $('#sRight').textContent = st.right;
+  const cardCount = ALL.filter(q => S.ans[q.id] && q.term).length;
+  $('#sCards').textContent = cardCount;
+  const box = $('#modList'); box.innerHTML = '';
+  MODULES.forEach((m, i) => {
+    const done = m.qs.filter(q => S.ans[q.id]).length;
+    const d = el('div', 'mod' + (done === m.qs.length ? ' done' : ''));
+    d.innerHTML = '<div class="no">' + m.num + '</div>' +
+      '<div class="txt"><h3>' + m.title + '</h3><p>' + m.sub + '</p></div>' +
+      '<div class="pct">' + done + '/' + m.qs.length + '</div>' +
+      '<div class="bar" style="width:' + (done / m.qs.length * 100) + '%"></div>';
+    d.onclick = () => startModule(i);
+    box.appendChild(d);
+  });
+  show('home');
+}
+
+/* ---------- 答题 ---------- */
+let cur = {m:0, q:0};
+
+function startModule(mi){
+  cur = {m:mi, q:0};
+  // 从第一道未答的题开始；全答过则从头复习
+  const qs = MODULES[mi].qs;
+  const firstUn = qs.findIndex(q => !S.ans[q.id]);
+  cur.q = firstUn < 0 ? 0 : firstUn;
+  show('quiz');
+  renderQ();
+}
+
+function renderQ(){
+  const m = MODULES[cur.m], q = m.qs[cur.q];
+  $('#qMod').textContent = m.num + ' · ' + m.title;
+  $('#qCnt').textContent = (cur.q + 1) + '/' + m.qs.length;
+  $('#qBar').style.width = ((cur.q + (S.ans[q.id] ? 1 : 0)) / m.qs.length * 100) + '%';
+  $('#qTag').textContent = q.term || '概念';
+  $('#qText').textContent = q.t;
+  const opts = $('#qOpts'); opts.innerHTML = '';
+  const prev = S.ans[q.id];
+  q.o.forEach((txt, i) => {
+    const b = el('button', 'opt');
+    b.innerHTML = '<span class="k">' + L[i] + '</span><span>' + txt + '</span>';
+    b.onclick = () => answer(i);
+    if(prev){
+      b.disabled = true;
+      if(i === q.a) b.classList.add('right');
+      else if(i === prev.p) b.classList.add('wrong');
+      else b.classList.add('dim');
+    }
+    opts.appendChild(b);
+  });
+  $('#qFb').innerHTML = '';
+  if(prev) renderFeedback(q, prev.p, prev.ok, false);
+  $('#quiz').scrollTop = 0;
+  $('.qbody').scrollTop = 0;
+}
+
+function answer(i){
+  const m = MODULES[cur.m], q = m.qs[cur.q];
+  if(S.ans[q.id]) return;
+  const ok = (i === q.a);
+  S.ans[q.id] = {p:i, ok};
+  save();
+  const btns = document.querySelectorAll('#qOpts .opt');
+  btns.forEach((b, k) => {
+    b.disabled = true;
+    if(k === q.a) b.classList.add('right');
+    else if(k === i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  renderFeedback(q, i, ok, true);
+}
+
+function renderFeedback(q, picked, ok, scroll){
+  const fb = $('#qFb');
+  fb.innerHTML = '';
+  const card = el('div', 'fb');
+  card.innerHTML =
+    '<div class="judge ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓ 答对了' : '✗ 不对') +
+      (ok ? '<span>顺手记一下，这种题下次会变个样子再来。</span>'
+          : '<span>正确答案是 ' + L[q.a] + '。</span>') + '</div>' +
+    '<div class="why">' + q.why + '</div>' +
+    (q.eg ? '<div class="eg">' + q.eg + '</div>' : '') +
+    (q.term ? '<div class="term">已收入术语表 · ' + q.term + '</div>' : '');
+  fb.appendChild(card);
+
+  const isLast = cur.q >= MODULES[cur.m].qs.length - 1;
+  const nb = el('div', 'nextbar');
+  const btn = el('button', '', isLast ? '完成本章' : '下一题 ▸');
+  btn.onclick = () => { if(isLast) finishModule(); else { cur.q++; renderQ(); } };
+  nb.appendChild(btn);
+  fb.appendChild(nb);
+  if(scroll) setTimeout(() => card.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
+}
+
+function finishModule(){
+  const m = MODULES[cur.m];
+  const ans = m.qs.filter(q => S.ans[q.id]);
+  const right = ans.filter(q => S.ans[q.id].ok).length;
+  const wrong = m.qs.filter(q => S.ans[q.id] && !S.ans[q.id].ok);
+
+  const box = $('#summary');
+  let html = '<div class="sum-top"><div class="k">第 ' + m.num + ' 章 · 完成</div>' +
+    '<h2>' + m.title + '</h2>' +
+    '<div class="sc">' + right + ' / ' + m.qs.length + ' 题正确' +
+      (wrong.length ? '　·　' + wrong.length + ' 题待复盘' : '　·　全对') + '</div></div>';
+  html += '<ul class="points">' + m.points.map(p => '<li>' + p + '</li>').join('') + '</ul>';
+  if(wrong.length){
+    html += '<div class="sec-t" style="color:#a8928a">这 几 题 值 得 再 看 一 遍</div><div class="wronglist">';
+    wrong.forEach(q => {
+      html += '<div class="wq"><b>' + q.t + '</b>正确答案：' + L[q.a] + '. ' + q.o[q.a] +
+        '<br><em>' + q.why + '</em></div>';
+    });
+    html += '</div>';
+  }
+  html += '<button class="bigbtn" id="sumNext">' +
+    (cur.m < MODULES.length - 1 ? '进入第 ' + MODULES[cur.m + 1].num + ' 章 · ' + MODULES[cur.m + 1].title : '查看总成绩') +
+    '</button><button class="bigbtn ghost" id="sumHome">回目录</button>';
+  box.innerHTML = html;
+  $('#sumNext').onclick = () => {
+    if(cur.m < MODULES.length - 1) startModule(cur.m + 1);
+    else renderResult();
+  };
+  $('#sumHome').onclick = renderHome;
+  show('summary');
+}
+
+/* ---------- 总成绩 ---------- */
+function renderResult(){
+  const st = stats();
+  const pct = Math.round(st.right / st.total * 100);
+  let verdict;
+  if(pct >= 85) verdict = '你已经能读懂原著的黑体字了。接下来去读《逻辑学》的「导论」和「必须从何开始」。';
+  else if(pct >= 65) verdict = '骨架已经有了。剩下的问题多半出在「反思」这一层——本质论是最绕的地方，值得再刷一遍。';
+  else if(pct >= 40) verdict = '你抓住了几条主干（有—无—变、扬弃、矛盾），但范畴之间的「过渡」还没连成一串。建议重做错题，重点看每道题的「为什么」。';
+  else verdict = '不着急。这本书本来就不是一次能读进去的：先把「有—无—变」和「规定即否定」这两点吃透，其余会自己接上。';
+
+  let html = '<div class="sum-top"><div class="k">全 部 六 章</div><h2>' + st.right + ' / ' + st.total + '</h2>' +
+    '<div class="sc">正确率 ' + pct + '%　·　术语卡 ' + ALL.filter(q => S.ans[q.id] && q.term).length + ' 张</div></div>' +
+    '<div class="points"><li>' + verdict + '</li></div>';
+
+  html += '<div class="sec-t">分 章 情 况</div><div class="wronglist">';
+  MODULES.forEach((m, i) => {
+    const ans = m.qs.filter(q => S.ans[q.id]);
+    const r = ans.filter(q => S.ans[q.id].ok).length;
+    html += '<div class="wq" style="border-color:rgba(201,169,97,.25);background:rgba(201,169,97,.04)">' +
+      '<b style="color:#e0d6bf">' + m.num + ' · ' + m.title + '　' + r + '/' + m.qs.length + '</b>' +
+      '<em>' + (r === m.qs.length ? '全对' : r >= m.qs.length * 0.6 ? '基本掌握' : '建议重做') + '</em></div>';
+  });
+  html += '</div>';
+  html += '<button class="bigbtn" id="resWrong">重做错题</button>' +
+          '<button class="bigbtn ghost" id="resHome">回目录</button>';
+  $('#result').innerHTML = html;
+  $('#resWrong').onclick = () => {
+    const wrongIds = ALL.filter(q => S.ans[q.id] && !S.ans[q.id].ok).map(q => q.id);
+    if(!wrongIds.length){ alert('没有错题，全对。'); return; }
+    wrongIds.forEach(id => delete S.ans[id]);
+    save();
+    const firstM = ALL.find(q => wrongIds.indexOf(q.id) >= 0)._m;
+    startModule(firstM);
+  };
+  $('#resHome').onclick = renderHome;
+  show('result');
+}
+
+/* ---------- 错题本 ---------- */
+function openWrongBook(){
+  const wrong = ALL.filter(q => S.ans[q.id] && !S.ans[q.id].ok);
+  let html = '<div class="sum-top"><div class="k">错 题 本</div><h2>' + wrong.length + ' 题</h2>' +
+    '<div class="sc">' + (wrong.length ? '重做一遍比读三遍管用' : '还没有错题') + '</div></div>';
+  if(wrong.length){
+    html += '<div class="wronglist">';
+    wrong.forEach(q => {
+      html += '<div class="wq"><b>' + q.t + '</b>' +
+        '你选了：' + L[S.ans[q.id].p] + '. ' + q.o[S.ans[q.id].p] +
+        '<br>正确：' + L[q.a] + '. ' + q.o[q.a] +
+        '<br><em>' + q.why + '</em></div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="points"><li>你目前没有答错的题。要么你真的懂了，要么你还没开始——我希望是前者。</li></div>';
+  }
+  html += '<button class="bigbtn ghost" id="wbHome">回目录</button>';
+  $('#result').innerHTML = html;
+  $('#wbHome').onclick = renderHome;
+  show('result');
+}
+
+/* ---------- 术语表 ---------- */
+function renderCards(){
+  const list = $('#cardList');
+  const items = ALL.filter(q => S.ans[q.id] && q.term);
+  if(!items.length){
+    list.innerHTML = '<div class="empty">还没有术语。<br>答完题，术语会自动收进来。</div>';
+    return;
+  }
+  list.innerHTML = '';
+  items.forEach(q => {
+    const d = el('div', 'card');
+    d.innerHTML = '<h4>' + q.term + '</h4><p>' + q.why + '</p>' +
+      (q.eg ? '<div class="eg">' + q.eg + '</div>' : '');
+    list.appendChild(d);
+  });
+}
+
+/* ---------- 事件 ---------- */
+$('#qBack').onclick = renderHome;
+$('#btnCards').onclick = () => { renderCards(); $('#cards').classList.add('on'); };
+$('#cardsClose').onclick = () => $('#cards').classList.remove('on');
+$('#btnWrong').onclick = openWrongBook;
+$('#btnReset').onclick = () => {
+  if(!confirm('清空所有答题记录？术语表和错题本会一起清空。')) return;
+  S = {ans:{}}; save(); renderHome();
+};
+
+SCREENS.home = $('#home');
+SCREENS.quiz = $('#quiz');
+SCREENS.summary = $('#summary');
+SCREENS.result = $('#result');
+
+renderHome();
+
+</script>
+</body>
+</html>
